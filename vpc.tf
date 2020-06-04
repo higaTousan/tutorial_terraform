@@ -7,3 +7,7 @@ resource "aws_vpc" "test-vpc" {
     Name = "test-vpc"
   }
 }
+
+output "test-vpc_aws_vpc" {
+	value = aws_vpc.test-vpc.id
+}
