@@ -1,0 +1,27 @@
+data "aws_ami" "amazon_linux2" {
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name = "name"
+
+    values = [
+      "amzn2-ami-hvm-*-x86_64-gp2",
+    ]
+  }
+
+  filter {
+    name = "owner-alias"
+
+    values = [
+      "amazon",
+    ]
+  }
+}
+
+resource "aws_instance" "example" {
+  ami           = data.aws_ami.amazon_linux2.image_id
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.test-subnet.id
+}

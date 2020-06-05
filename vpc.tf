@@ -1,32 +1,13 @@
-module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
-  name = "${var.environment}-${var.vpc_name}"
-  cidr = var.vpc_cidr
-
-  azs             = var.azs
-  private_subnets = var.private_subnets
-  public_subnets  = var.public_subnets
-
-  enable_ipv6 = var.enable_ipv6
-
-  enable_nat_gateway = var.enable_nat_gateway
-  single_nat_gateway = var.single_nat_gateway
-
-  public_subnet_suffix = var.public_subnet_suffix
-  public_subnet_tags = {
-    SubnetZone = var.public_subnet_zone
-  }
-
-  private_subnet_suffix = var.private_subnet_suffix
-  private_subnet_tags = {
-    SubnetZone = var.private_subnet_zone
-  }
+resource "aws_vpc" "test-vpc" {
+  cidr_block           = "10.0.0.0/16"
+  instance_tenancy     = "default"
+  enable_dns_hostnames = true
 
   tags = {
-    Environment = var.environment
+    Name = "test-vpc"
   }
+}
 
-  vpc_tags = {
-    Name = "${var.environment}-${var.vpc_name}"
-  }
+output "test-vpc_aws_vpc" {
+	value = aws_vpc.test-vpc.id
 }
